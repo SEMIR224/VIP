@@ -1,0 +1,27 @@
+from flask import Flask, jsonify, session
+
+app = Flask(__name__)
+app.secret_key = 'semir_secret_key_2026'
+
+# የውሸት ዳታቤዝ ምትክ (Database simulation)
+user_data = {
+    "username": "SmrOutlaw",
+    "referral_count": 0,
+    "balance": 100.0
+}
+
+@app.route('/add_fake_referral', methods=['GET'])
+def add_fake_referral():
+    # ሮቦቱ በአንድ ጊዜ 1 ሰው እንደጋበዘ አድርጎ ቁጥሩን እና ብሩን ይጨምራል
+    user_data["referral_count"] += 1
+    user_data["balance"] += 50.0  # ለምሳሌ ለእያንዳንዱ ጋበዣ 50 ብር ይጨምራል
+    
+    return jsonify({
+        "status": "success",
+        "message": "የውሸት ሪፈራል በተሳካ ሁኔታ ተመዝግቧል!",
+        "total_referrals": user_data["referral_count"],
+        "new_balance": user_data["balance"]
+    })
+
+if __name__ == '__main__':
+    app.run(debug=True)
